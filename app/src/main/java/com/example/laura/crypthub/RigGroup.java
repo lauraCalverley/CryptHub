@@ -12,31 +12,31 @@ import org.json.JSONObject;
 
 public class RigGroup {
 
-    protected Activity activity;
+    private Activity activity;
 
-    protected String type;
+    private String type;
 
     private String base_url;
 
-    public RigGroup(String type, Activity _activity) {
-        this.type = type;
-        this.activity = _activity;
-        this.setBaseUrl();
-        this.getGroup();
+    public RigGroup(String _type, Activity _activity) {
+        type = _type;
+        activity = _activity;
+        setBaseUrl();
+        getGroup();
     }
 
-    public void setBaseUrl() {
-        switch (this.type) {
+    private void setBaseUrl() {
+        switch (type) {
             case "zcash":
-                this.base_url = "https://api-zcash.flypool.org/";
+                base_url = "https://api-zcash.flypool.org/";
                 break;
             case "ether":
-                this.base_url = "https://api.ethermine.org/";
+                base_url = "https://api.ethermine.org/";
                 break;
         }
     }
 
-    public void getGroup() {
+    private void getGroup() {
         final TextView testElement = (TextView) this.activity.findViewById(R.id.test);
         HttpRequest request = new HttpRequest(new HttpRequest.AsyncResponse() {
             @Override
@@ -50,8 +50,9 @@ public class RigGroup {
                 }
             }
         });
+        String url = base_url + "miner/t1Z56yCJgGcaLu9WxPRihf7XqL6CMwHMQhP/workers";
 //        request.execute("https://api-zcash.flypool.org/miner/t1W9BSTx9Gi4pzekr1woKu1X7WuRcSACLRj/workers");
-        request.execute("https://api-zcash.flypool.org/miner/t1Z56yCJgGcaLu9WxPRihf7XqL6CMwHMQhP/workers");
+        request.execute(url);
 //        request.execute("https://api.ethermine.org/miner/bac6f80CeAf51F5f0058004A328CdD820AeC1042/workers");
 
     }
