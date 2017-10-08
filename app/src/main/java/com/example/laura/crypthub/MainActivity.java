@@ -12,6 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,6 +44,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        getGroup();
     }
 
     @Override
@@ -97,5 +103,25 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void getGroup() {
+        final TextView testElement = (TextView) findViewById(R.id.test);
+        HttpRequest request = new HttpRequest(new HttpRequest.AsyncResponse() {
+            @Override
+            public void processFinish(String output) {
+                try {
+                    JSONObject response = new JSONObject(output);
+                    testElement.setText(response.getJSONArray("data").toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    testElement.setText("error");
+                }
+            }
+        });
+//        request.execute("https://api-zcash.flypool.org/miner/t1W9BSTx9Gi4pzekr1woKu1X7WuRcSACLRj/workers");
+        request.execute("https://api-zcash.flypool.org/miner/t1Z56yCJgGcaLu9WxPRihf7XqL6CMwHMQhP/workers");
+//        request.execute("https://api.ethermine.org/miner/bac6f80CeAf51F5f0058004A328CdD820AeC1042/workers");
+
     }
 }
