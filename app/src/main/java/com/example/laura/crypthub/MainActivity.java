@@ -20,6 +20,8 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private RigGroup rigs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        getGroup();
+        rigs = new ZCashGroup(this);
     }
 
     @Override
@@ -105,23 +107,5 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void getGroup() {
-        final TextView testElement = (TextView) findViewById(R.id.test);
-        HttpRequest request = new HttpRequest(new HttpRequest.AsyncResponse() {
-            @Override
-            public void processFinish(String output) {
-                try {
-                    JSONObject response = new JSONObject(output);
-                    testElement.setText(response.getJSONArray("data").toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    testElement.setText("error");
-                }
-            }
-        });
-//        request.execute("https://api-zcash.flypool.org/miner/t1W9BSTx9Gi4pzekr1woKu1X7WuRcSACLRj/workers");
-        request.execute("https://api-zcash.flypool.org/miner/t1Z56yCJgGcaLu9WxPRihf7XqL6CMwHMQhP/workers");
-//        request.execute("https://api.ethermine.org/miner/bac6f80CeAf51F5f0058004A328CdD820AeC1042/workers");
 
-    }
 }
